@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>TimeLoop - basic examples</title>
+    <script src="../time-loop.js"></script>
+  </head>
+  <body>
+
+
+    <script>
+      timeLoop.debugging();
+      timeLoop.defaultNamespace = "time-loop";
+      timeLoop.start();
+
+      timeLoop.createPool(5)
+              .createEvent({
+                  type: "interval",
+                  time: 1000,
+                  namespace: "test"
+                }, function() {
+                  console.log('Fires every second');
+                });
+    </script>
+  </body>
+</html>

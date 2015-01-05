@@ -69,7 +69,7 @@
   var reg;
   var checkNamespace = function(event, namespace) {
 
-    reg = new RegExp('^'+namespace);
+    reg = new RegExp('^'+escapeRegExp(namespace));
 
     if(reg.test(event.namespace)) return true;
 
@@ -81,9 +81,13 @@
     return ev1.priority - ev2.priority;
   };
 
+  var escapeRegExp = function(str) {
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  };
 
 
-  var i, ev, currentTime;
+
+  var i, ev, currentTime, evs;
 
   /**
    * @class TimeLoop
@@ -99,7 +103,11 @@
     this.autoSort = true;
     this.defaultNamespace = "all";
 
+    this.debug = false;
+
     this.proxyStep = this.step.bind(this);
+
+    var self = this;
 
     document.addEventListener(visibilityChange, function() {
 
@@ -126,11 +134,21 @@
     this.elapsedTime = currentTime - this.lastTime;
     this.lastTime = currentTime;
 
+    evs = 0;
+
     for(i = 0; i < this.events.length; i++) {
 
       ev = this.events[i];
 
       if(!ev.paused && !ev.ended) ev.update(this.elapsedTime);
+      if(!ev.ended) evs++;
+    }
+
+    // debug
+    if(this.debug) {
+
+      this.debug.totalEvents.innerTHML = this.events.length;
+      this.debug.currentEvents.innerTHML = evs;
     }
 
     requestAnimFrame(this.proxyStep);
@@ -141,6 +159,8 @@
    * @return (TimeLoop) Instance for chaining
    */
   TimeLoop.prototype.start = function() {
+
+    if(this.debug) console.log('[time-loop.js::start] Starting time loop');
 
     this.lastTime = Date.now();
     this.elapsedTime = 0;
@@ -156,6 +176,8 @@
    * @return (TimeLoop) Instance for chaining
    */
   TimeLoop.prototype.pause = function() {
+
+    if(this.debug) console.log('[time-loop.js::pause] Pausing time loop');
 
     this.paused = true;
 
@@ -270,16 +292,34 @@
   };
 
 
- /**
-  * @class TimeEvent
-  * Executes a callback after some time has passed or at regular intervals
-  */
+  TimeLoop.prototype.debugging = function() {
+
+    this.debug = new Debug();
+
+    return this.debug;
+  };
+
+
+
+  var defaultOptions = {
+    type: 'timeout',
+    time: 0,
+    priority: 1,
+    namespace: "",
+    context: window
+  };
+  /**
+   * @class TimeEvent
+   * Executes a callback after some time has passed or at regular intervals
+   */
   var TimeEvent = function(options, cb, ctx) {
 
-    this.type = options.type || "interval"; // delay|interval
-    this.time = options.time || 0;
-    this.priority = (options.priority !== undefined) ? options.priority : 1;
-    this.namespace = options.namespace || "";
+    if(!options) options = defaultOptions;
+
+    this.type = options.type || defaultOptions.type; // timeout|interval
+    this.time = options.time || defaultOptions.time;
+    this.priority = (options.priority !== undefined) ? options.priority : defaultOptions.priority;
+    this.namespace = options.namespace || defaultOptions.namespace;
     this.context = ctx || window;
     this.paused = false;
     this.ended = false;
@@ -294,6 +334,8 @@
    * @return (TimeEvent) Instance for chaining
    */
   TimeEvent.prototype.options = function(options) {
+
+    if(!options) options = defaultOptions;
 
     this.type = options.type || this.type; // delay|interval
     this.time = options.time || this.time;
@@ -315,10 +357,42 @@
 
     if(this.elapsedTime >= this.time) {
 
-      this.context.call(this.callback);
+      this.callback.call(this.context);
 
-      if(this.type === "delay") this.ended = true;
+      this.elapsedTime = 0;
+
+      if(this.type === "timeout") this.ended = true;
     }
+  };
+
+
+
+
+  var Debug = function(timeloop) {
+
+    this.debugArea = document.createElement('div');
+
+    var part1 = document.createElement('div'),
+        part2 = document.createElement('div'),
+        part3 = document.createElement('div'),
+        text1 = document.createTextNode('events'),
+        text2 = document.createTextNode('/'),
+        text3 = document.createTextNode('fps'),
+        text4 = document.createTextNode('ms');
+
+    this.currentEvents = document.createElement('span');
+    this.totalEvents = document.createElement('span');
+
+    this.debugArea.id = "TimeLoopDebug";
+
+    part1.appendChild(text1);
+    part1.appendChild(this.currentEvents);
+    part1.appendChild(text2);
+    part1.appendChild(this.totalEvents);
+
+    this.debugArea.appendChild(part1);
+
+    document.body.appendChild(this.debugArea);
   };
 
 
