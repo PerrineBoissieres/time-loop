@@ -337,10 +337,10 @@
 
     if(!options) options = defaultOptions;
 
-    this.type = options.type || this.type; // delay|interval
-    this.time = options.time || this.time;
-    this.priority = (options.priority !== undefined) ? options.priority : this.priority;
-    this.namespace = options.namespace || this.namespace;
+    this.type = options.type || defaultOptions.type; // delay|interval
+    this.time = options.time || defaultOptions.time;
+    this.priority = (options.priority !== undefined) ? options.priority : defaultOptions.priority;
+    this.namespace = options.namespace || defaultOptions.namespace;
 
     return this;
   };
