@@ -365,6 +365,30 @@
     }
   };
 
+  /**
+   * Pauses the event (it won't be called until unpaused)
+   */
+  TimeEvent.prototype.pause = function() {
+
+    this.paused = true;
+  };
+
+  /**
+   * Unpauses the event
+   */
+  TimeEvent.prototype.unpause = function() {
+
+    this.paused = false;
+  };
+
+  /**
+   * Ends the event (it won't be called, until it is rewrited by a new one)
+   */
+  TimeEvent.prototype.end = function() {
+
+    this.ended = true;
+  };
+
 
 
 

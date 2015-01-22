@@ -48,6 +48,15 @@ Namespaces help theming your events and execute actions on multiple events at on
 ### .options(options)
 Call this method on an instanced TimeEvent to reset to its default parameters and pass it new options (use it to overwrite an event by a new one).
 
+### .pause()
+The event won't be called until you un-pause it
+
+### .unpause()
+The event is restarted
+
+### .end()
+End an event : it won't be called anymore, and is cached to be rewrited by a new one.
+
 ## Parameters
 
 ### timeLoop.autoSort {bool}
