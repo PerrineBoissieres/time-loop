@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf8">
+    <title>TimeLoop - priority examples</title>
+    <script src="../time-loop.js"></script>
+  </head>
+  <body>
+
+
+    <script>
+      timeLoop.debugging();
+      timeLoop.start();
+
+      timeLoop.createEvent({
+                  type: "interval",
+                  time: 1000,
+                  namespace: "test",
+                  priority: 50
+                }, function() {
+                  console.log('Should fire second');
+                });
+
+      timeLoop.createEvent({
+                  type: "interval",
+                  time: 1000,
+                  namespace: "test",
+                  priority: 90
+                }, function() {
+                  console.log('Should fire first');
+                });
+
+      timeLoop.createEvent({
+                  type: "interval",
+                  time: 1000,
+                  namespace: "test"
+                }, function() {
+                  console.log('Should fire third');
+                });
+    </script>
+  </body>
+</html>

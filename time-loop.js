@@ -78,7 +78,7 @@
 
   var orderByPriority = function(ev1, ev2) {
 
-    return ev1.priority - ev2.priority;
+    return ev2.priority - ev1.priority;
   };
 
   var escapeRegExp = function(str) {

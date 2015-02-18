@@ -9,12 +9,9 @@
 
 
     <script>
-      timeLoop.debugging();
-      timeLoop.defaultNamespace = "time-loop";
       timeLoop.start();
 
-      timeLoop.createPool(5)
-              .createEvent({
+      timeLoop.createEvent({
                   type: "interval",
                   time: 1000,
                   namespace: "test"
