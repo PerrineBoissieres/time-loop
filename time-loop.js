@@ -1,5 +1,5 @@
 /*
- * TimeLoop 0.1
+ * TimeLoop 0.2
  *
  * © 2015 Perrine Boissières
  *
@@ -130,7 +130,7 @@
       this.sortable = false;
     }
 
-    currentTime = Date.now();
+    currentTime = this.getTime();
     this.elapsedTime = currentTime - this.lastTime;
     this.lastTime = currentTime;
 
@@ -160,9 +160,11 @@
    */
   TimeLoop.prototype.start = function() {
 
+    if(!this.paused) return; // If already started, we quit
+
     if(this.debug) console.log('[time-loop.js::start] Starting time loop');
 
-    this.lastTime = Date.now();
+    this.lastTime = this.getTime();
     this.elapsedTime = 0;
     this.paused = false;
 
@@ -289,6 +291,19 @@
     }
 
     return match;
+  };
+
+  /**
+   * Returns the current timestamp
+   * @return (Number)
+   */
+  TimeLoop.prototype.getTime = function() {
+
+    // Defaults to Date.now() since it's faster
+    if(Date.now) return Date.now();
+
+    // Fallsback to new Date()
+    return +new Date();
   };
 
 
