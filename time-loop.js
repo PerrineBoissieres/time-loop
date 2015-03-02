@@ -98,7 +98,7 @@
     this.events = [];
     this.elapsedTime = 0;
     this.lastTime = 0;
-    this.paused = false;
+    this.paused = true;
     this.sortable = false;
     this.autoSort = true;
     this.defaultNamespace = "all";
