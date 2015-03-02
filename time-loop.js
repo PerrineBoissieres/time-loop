@@ -109,12 +109,18 @@
 
     var self = this;
 
-    document.addEventListener(visibilityChange, function() {
+    // If the browser supports the visibilityChange API, we bind the event
+    // to stop and re-starts the loop automatically
+    if(visibilityChange) {
 
-      if (document[hidden]) self.pause();
-      else self.start();
+      document.addEventListener(visibilityChange, function() {
 
-    }, false);
+        if (document[hidden]) self.pause();
+        else self.start();
+
+      }, false);
+    }
+
   };
 
   /**
