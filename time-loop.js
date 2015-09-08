@@ -150,13 +150,6 @@
       if(!ev.ended) evs++;
     }
 
-    // debug
-    if(this.debug) {
-
-      this.debug.totalEvents.innerTHML = this.events.length;
-      this.debug.currentEvents.innerTHML = evs;
-    }
-
     requestAnimFrame(this.proxyStep);
   };
 

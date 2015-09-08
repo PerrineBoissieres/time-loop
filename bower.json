@@ -3,7 +3,7 @@
   "main": "time-loop.js",
   "version": "0.2",
   "authors": [
-    "Perrine Boissières <myssdii@gmail.com>"
+    "Perrine Boissières <perrine.boissieres@gmail.com>"
   ],
   "description": "Javascript time-based events handler",
   "moduleType": [
@@ -24,8 +24,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "devDependencies": {
-    "stats.js": "*"
-  }
+  ]
 }
