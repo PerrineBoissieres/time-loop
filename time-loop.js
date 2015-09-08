@@ -313,14 +313,6 @@
   };
 
 
-  TimeLoop.prototype.debugging = function() {
-
-    this.debug = new Debug();
-
-    return this.debug;
-  };
-
-
 
   var defaultOptions = {
     type: 'timeout',
@@ -411,37 +403,7 @@
   };
 
 
-
-
-  var Debug = function(timeloop) {
-
-    this.debugArea = document.createElement('div');
-
-    var part1 = document.createElement('div'),
-        part2 = document.createElement('div'),
-        part3 = document.createElement('div'),
-        text1 = document.createTextNode('events'),
-        text2 = document.createTextNode('/'),
-        text3 = document.createTextNode('fps'),
-        text4 = document.createTextNode('ms');
-
-    this.currentEvents = document.createElement('span');
-    this.totalEvents = document.createElement('span');
-
-    this.debugArea.id = "TimeLoopDebug";
-
-    part1.appendChild(text1);
-    part1.appendChild(this.currentEvents);
-    part1.appendChild(text2);
-    part1.appendChild(this.totalEvents);
-
-    this.debugArea.appendChild(part1);
-
-    document.body.appendChild(this.debugArea);
-  };
-
-
-
+  // Function.bind polyfill for IE8
   if (!Function.prototype.bind) {
     Function.prototype.bind = function(oThis) {
       if (typeof this !== 'function') {
