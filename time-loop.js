@@ -13,6 +13,10 @@
 
     define(factory);
 
+  } else if (typeof module === "object" && typeof module.exports === "object") {
+
+    module.exports = factory();
+
   } else {
 
     window.timeLoop = factory();
