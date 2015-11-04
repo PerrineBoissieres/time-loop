@@ -1,5 +1,5 @@
 /*
- * TimeLoop 0.2
+ * TimeLoop v1.0.0
  *
  * © 2015 Perrine Boissières
  *

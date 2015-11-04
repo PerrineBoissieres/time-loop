@@ -1,7 +1,7 @@
 {
   "name": "time-loop",
   "main": "time-loop.js",
-  "version": "0.2",
+  "version": "v1.0.0",
   "authors": [
     "Perrine Boissières <perrine.boissieres@gmail.com>"
   ],
