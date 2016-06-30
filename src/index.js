@@ -241,9 +241,10 @@ export default class TimeLoop {
 
     this.timers.map((e) => {
       if (!e.ended && checkNamespace(e, namespace)) {
-        if (action && action === 'start') e.paused = false;
-        else if (action && action === 'pause') e.paused = true;
-        else if (action && action === 'end') e.ended = true;
+        if (action && action === 'resume') e.resume();
+        else if (action && action === 'pause') e.pause();
+        else if (action && action === 'reset') e.reset();
+        else if (action && action === 'end') e.end();
 
         match.push(e);
       }
