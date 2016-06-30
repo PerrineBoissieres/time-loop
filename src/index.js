@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Javascript time-based events handler
+ * @author <a href="mailto:perrine.boissieres@gmail.com">Perrine Boissières</a>
+ * @version 2.0.0
+ */
+
 import Timer from './timer';
 
 let reg;
@@ -21,23 +27,51 @@ function orderByPriority(ev1, ev2) {
   return ev2.options.priority - ev1.options.priority;
 }
 
+/**
+ * @class
+ */
 export default class TimeLoop {
+  /** @type Number */
   get time() { return Date.now(); }
 
+  /**
+   * @constructor
+   */
   constructor() {
+    /** @type Array */
     this.timers = [];
+
+    /** @type Number */
     this.elapsedTime = 0;
+
+    /** @type Number */
     this.lastTime = 0;
+
+    /** @type boolean */
     this.paused = true;
+
+    /** @type boolean */
     this.started = false;
+
+    /** @type boolean */
     this.sortable = false;
+
+    /** @type boolean */
     this.autoSort = true;
+
+    /** @type String */
     this.defaultNamespace = 'all';
 
+    /** @type Number */
     this.fps = 0;
+
+    /** @type Number */
     this.fpsLastTime = 0;
+
+    /** @type Number */
     this.frameCount = 0;
 
+    /** @type function */
     this.proxyStep = this.step.bind(this);
 
     // If the browser supports the visibilityChange API, we bind the event
@@ -132,7 +166,7 @@ export default class TimeLoop {
   /**
    * @method createPool
    * Creates a given number of empty timers
-   * @param {Number} The number of timers to create
+   * @param {Number} nb The number of timers to create
    * @return {TimeLoop} chainable
    */
   createPool(nb) {
@@ -154,10 +188,10 @@ export default class TimeLoop {
   /**
    * @method createTimer
    * Creates a new timer, from pool if available
-   * @param {function} callback function to execute
-   * @param {Object} parameters
-   * @param {Object} context for callback execution
-   * @return {Timer} newly created timer
+   * @param {function} cb Callback function to execute
+   * @param {Object} options Parameters
+   * @param {Object} ctx Context for callback execution
+   * @return {Timer} Newly created timer
    */
   createTimer(cb, options, ctx) {
     ev = this.getFromPool();
@@ -198,9 +232,9 @@ export default class TimeLoop {
   /**
    * @method namespace
    * Retrieves timers under given namespace, can execute an action on all of them
-   * @param {String} namespace
-   * @param {String} optional action name (start, pause, end)
-   * @return {Array} array of timers
+   * @param {String} namespace Namespace
+   * @param {String} action Optional action name (start, pause, end)
+   * @return {Array} Array of timers
    */
   namespace(namespace, action) {
     const match = [];
@@ -221,10 +255,10 @@ export default class TimeLoop {
   /**
    * @function wait
    * Creates a timeout and returns a promise
-   * @param {Number} The time to wait before resolving
+   * @param {Number} time=0 The time to wait before resolving
    * @return {Promise}
    */
-  wait(time) {
+  wait(time = 0) {
     prom = new Promise((resolve) => {
       this.createTimer(() => resolve(), {
         type: 'timeout',
@@ -238,8 +272,8 @@ export default class TimeLoop {
   /**
    * @function repeat
    * Creates an interval
-   * @param {function} The callback function
-   * @param {Number} The time to wait between calls
+   * @param {function} callback The callback function
+   * @param {Number} time=0 The time to wait between calls
    * @return {Timer}
    */
   repeat(callback, time = 0) {

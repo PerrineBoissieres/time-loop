@@ -27,8 +27,8 @@ export default class Timer {
   /**
    * @method options
    * Changes the options of an existing Timer
-   * @param {Object} A list of options
-   * @param {bool} false if you don't want to reset all current options
+   * @param {Object} options A list of options
+   * @param {bool} reset=true false if you don't want to reset all current options
    * @return {Timer} chainable
    */
   options(options, reset = true) {
@@ -40,7 +40,7 @@ export default class Timer {
   /**
    * @method update
    * Adds the elapsed time since last call
-   * @param {Number} Number of ms passed
+   * @param {Number} ms Number of ms passed
    */
   update(ms) {
     if (this.paused || this.ended) return;
