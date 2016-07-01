@@ -16,7 +16,7 @@ export function escapeRegExp(str) {
  * @return {boolean}
  */
 export function checkNamespace(timer, namespace) {
-  reg = new RegExp('^' + escapeRegExp(namespace));
+  const reg = new RegExp(`^${escapeRegExp(namespace)}`);
 
   if (reg.test(timer.namespace)) return true;
 
@@ -46,11 +46,13 @@ export function extendOptions(defaults, options) {
 
   const extended = {};
 
+  // eslint-disable-next-line
   for (const i in defaults) {
     if ({}.hasOwnProperty.call(defaults, i)) {
       extended[i] = defaults[i];
     }
   }
+  // eslint-disable-next-line
   for (const j in options) {
     if ({}.hasOwnProperty.call(options, j)) {
       extended[j] = options[j];

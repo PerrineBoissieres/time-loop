@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "WEBPACK_ENV=build webpack",
-    "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch"
+    "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
+    "lint": "eslint ./src"
   },
   "author": "Perrine Boissières <perrine.boissieres@gmail.com>",
   "license": "MIT",

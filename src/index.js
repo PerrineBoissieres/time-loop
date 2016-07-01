@@ -5,9 +5,8 @@
  */
 
 import Timer from './timer';
-import { escapeRegExp, checkNamespace, orderByPriority } from './tools';
+import { checkNamespace, orderByPriority } from './tools';
 
-let reg;
 let currentTime;
 let fpsCurrentTime;
 let ev;
@@ -96,6 +95,7 @@ export default class TimeLoop {
 
     this.timers.map((e) => {
       if (!e.paused && !e.ended) e.update(this.elapsedTime);
+      return e;
     });
 
     window.requestAnimationFrame(this.proxyStep);
@@ -183,7 +183,7 @@ export default class TimeLoop {
   createTimer(cb, options, ctx) {
     ev = this.getFromPool();
 
-    if (options.namespace) options.namespace = this.defaultNamespace + '.' + options.namespace;
+    if (options.namespace) options.namespace = `${this.defaultNamespace}.${options.namespace}`;
     else options.namespace = this.defaultNamespace;
 
     if (ev) {
@@ -235,6 +235,7 @@ export default class TimeLoop {
 
         match.push(e);
       }
+      return e;
     });
 
     return match;
