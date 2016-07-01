@@ -278,9 +278,9 @@ export default class TimeLoop {
    * @return {Timer}
    */
   repeat(callback, time = 0) {
-    return this.createTimer({
+    return this.createTimer(callback, {
       type: 'interval',
       time,
-    }, callback, this);
+    }, this);
   }
 }
