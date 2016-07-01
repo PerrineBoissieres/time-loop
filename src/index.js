@@ -5,6 +5,7 @@
  */
 
 import Timer from './timer';
+import { escapeRegExp, checkNamespace, orderByPriority } from './tools';
 
 let reg;
 let currentTime;
@@ -12,20 +13,6 @@ let fpsCurrentTime;
 let ev;
 let i;
 let prom;
-
-function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
-}
-function checkNamespace(timer, namespace) {
-  reg = new RegExp('^' + escapeRegExp(namespace));
-
-  if (reg.test(timer.namespace)) return true;
-
-  return false;
-}
-function orderByPriority(ev1, ev2) {
-  return ev2.options.priority - ev1.options.priority;
-}
 
 /**
  * @class

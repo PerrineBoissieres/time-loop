@@ -1,5 +1,11 @@
+import { extendOptions } from './tools';
+
+/**
+ * @class
+ */
 export default class Timer {
 
+  /** @type Object */
   get defaultOptions() {
     return {
       type: 'timeout',
@@ -16,11 +22,22 @@ export default class Timer {
    * @param {Object} ctx The context of the callback's execution
    */
   constructor(cb, options, ctx) {
+    /** @type Object */
     this.settings = extendOptions(this.defaultOptions, options);
+
+    /** @type boolean */
     this.paused = false;
+
+    /** @type boolean */
     this.ended = false;
+
+    /** @type function */
     this.callback = cb || undefined;
+
+    /** @type Object */
     this.context = ctx || window;
+
+    /** @type Number */
     this.elapsedTime = 0;
   }
 
