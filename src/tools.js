@@ -18,7 +18,7 @@ export function escapeRegExp(str) {
 export function checkNamespace(timer, namespace) {
   const reg = new RegExp(`^${escapeRegExp(namespace)}`);
 
-  if (reg.test(timer.namespace)) return true;
+  if (reg.test(timer.settings.namespace)) return true;
 
   return false;
 }
@@ -31,7 +31,7 @@ export function checkNamespace(timer, namespace) {
  * @return {Number}
  */
 export function orderByPriority(ev1, ev2) {
-  return ev2.options.priority - ev1.options.priority;
+  return ev2.settings.priority - ev1.settings.priority;
 }
 
 /**
