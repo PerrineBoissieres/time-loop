@@ -1,6 +1,6 @@
 {
   "name": "time-loop",
-  "version": "v1.0.0",
+  "version": "2.0.0",
   "description": "Javascript time-based events handler",
   "main": "lib/time-loop.js",
   "directories": {
