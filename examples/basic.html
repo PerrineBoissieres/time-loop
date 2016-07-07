@@ -3,21 +3,22 @@
   <head>
     <meta charset="utf8">
     <title>TimeLoop - basic examples</title>
-    <script src="../time-loop.js"></script>
+    <script src="../lib/time-loop.js"></script>
   </head>
   <body>
 
 
     <script>
-      timeLoop.start();
+      var timeLoop = new TimeLoop();
 
-      timeLoop.createEvent({
-                  type: "interval",
-                  time: 1000,
-                  namespace: "test"
-                }, function() {
-                  console.log('Fires every second');
-                });
+      timeLoop.createTimer(function() {
+        console.log('Fires every second');
+      }, {
+        type: "interval",
+        time: 1000,
+        namespace: "test"
+      });
+      timeLoop.start();
     </script>
   </body>
 </html>

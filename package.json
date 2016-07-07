@@ -1,11 +1,27 @@
 {
   "name": "time-loop",
-  "version": "v1.0.0",
+  "version": "2.0.0",
   "description": "Javascript time-based events handler",
-  "main": "time-loop.js",
+  "main": "lib/time-loop.js",
   "directories": {
     "time-loop": "git@github.com:PerrineBoissieres/time-loop.git"
   },
+  "scripts": {
+    "build": "WEBPACK_ENV=build webpack",
+    "dev": "WEBPACK_ENV=dev webpack --progress --colors --watch",
+    "lint": "eslint ./src"
+  },
   "author": "Perrine Boissières <perrine.boissieres@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.10.4",
+    "babel-eslint": "^6.1.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.9.0",
+    "eslint": "^2.13.1",
+    "eslint-loader": "^1.3.0",
+    "webpack": "^1.13.1"
+  }
 }

@@ -3,40 +3,40 @@
   <head>
     <meta charset="utf8">
     <title>TimeLoop - priority examples</title>
-    <script src="../time-loop.js"></script>
+    <script src="../lib/time-loop.js"></script>
   </head>
   <body>
 
 
     <script>
-      timeLoop.debugging();
+      var timeLoop = new TimeLoop();
+
+      timeLoop.createTimer(function() {
+        console.log('Should fire second');
+      }, {
+        type: "interval",
+        time: 1000,
+        namespace: "test",
+        priority: 50
+      });
+
+      timeLoop.createTimer(function() {
+        console.log('Should fire first');
+      }, {
+        type: "interval",
+        time: 1000,
+        namespace: "test",
+        priority: 90
+      });
+
+      timeLoop.createTimer(function() {
+        console.log('Should fire third');
+      }, {
+        type: "interval",
+        time: 1000,
+        namespace: "test"
+      });
       timeLoop.start();
-
-      timeLoop.createEvent({
-                  type: "interval",
-                  time: 1000,
-                  namespace: "test",
-                  priority: 50
-                }, function() {
-                  console.log('Should fire second');
-                });
-
-      timeLoop.createEvent({
-                  type: "interval",
-                  time: 1000,
-                  namespace: "test",
-                  priority: 90
-                }, function() {
-                  console.log('Should fire first');
-                });
-
-      timeLoop.createEvent({
-                  type: "interval",
-                  time: 1000,
-                  namespace: "test"
-                }, function() {
-                  console.log('Should fire third');
-                });
     </script>
   </body>
 </html>

@@ -1,24 +1,26 @@
 # time-loop.js
 
-This library helps you easily manage time-based events with `requestAnimationFrame`.
+This library helps you easily manage time-based timers with `requestAnimationFrame`.
 
 # How to use
 
 Creating timeouts and intervals is really simple :
 
 ```js
-timeLoop.createEvent({
+var timeLoop = new require('time-loop')();
+
+timeLoop.createTimer(function() {
+  // Code here will be executed after one second
+}, {
   type: 'timeout',
   time: 1000
-}, function() {
-  // Code here will be executed after one second
 });
 
-timeLoop.createEvent({
+timeLoop.createTimer(function() {
+  // Code here will be executed every half-second
+}, {
   type: 'interval',
   time: 500
-}, function() {
-  // Code here will be executed every half-second
 });
 
 timeLoop.start(); // Starts
@@ -26,85 +28,94 @@ timeLoop.start(); // Starts
 
 # API
 
-## Event options
-These options can be passed to the `timeLoop.createEvent` method, or changed on the objet directly.
+## Timer options
+These options can be passed to the `timeLoop.createTimer` method, or changed on the objet directly.
 
 ### type {string}
 Values `timeout` or `interval`. Defaults to `timeout`.
 
 ### time {int}
-Time in ms before a timeout is executed, or interval between calls (depends on the type option). If value equals 0, the timeout event is called on the next frame, and the interval event is called every frame.
+Time in ms before a timeout is executed, or interval between calls (depends on the type option). If value equals 0, the timeout timer is called on the next frame, and the interval timer is called every frame.
 
 ### priority {int}
 Determines the order of calls when multiple callbacks are to be executed at the same frame. Higher numbers are executed prior to lower numbers. Defaults to `1`.
 
 ### namespace {string}
-Namespaces help theming your events and execute actions on multiple events at once. A dot-separated syntax is recommended, ex: `home.scrolling`, and `home.scrolling.menu`.
+Namespaces help theming your timers and execute actions on multiple timers at once. A dot-separated syntax is recommended, ex: `home.scrolling`, and `home.scrolling.menu`.
 
-*Note : a default namespace `all` is applied by default to all events, the namespace given by this option is appended to this default namespace.*
+*Note : a default namespace `all` is applied by default to all timers, the namespace given by this option is appended to this default namespace.*
 
-## Event methods
+## Timer methods
 
 ### .options(options)
-Call this method on an instanced TimeEvent to reset to its default parameters and pass it new options (use it to overwrite an event by a new one).
+Call this method on an instanced Timer to reset to its default parameters and pass it new options (use it to overwrite an timer by a new one).
 
 ### .pause()
-The event won't be called until you un-pause it
+The timer won't be called until you resume it
 
-### .unpause()
-The event is restarted
+### .resume()
+The timer is resumed
+
+### .reset()
+Resets the internal elapsed time to 0
 
 ### .end()
-End an event : it won't be called anymore, and is cached to be rewrited by a new one.
+End an timer : it won't be called anymore, and is cached to be rewritten by a new one.
 
-## Parameters
+## TimeLoop Parameters
 
-### timeLoop.autoSort {bool}
-By default, when creating new events, they are automatically sorted by priority. By setting this parameter to `false`, events will not be sorted automatically and if you need to do it, you'll have to call the `timeLoop.sort()` method yourself.
+### autoSort {bool}
+By default, when creating new timers, they are automatically sorted by priority. By setting this parameter to `false`, timers will not be sorted automatically and if you need to do it, you'll have to call the `.sort()` method yourself.
 
-### timeLoop.defaultNamespace {string}
-A default namespace prepended to all events' namespaces. Defaults to `all`.
+### defaultNamespace {string}
+A default namespace prepended to all timers' namespaces. Defaults to `all`.
 
-## Methods
-*By default, every method returns the `timeLoop` object for chaining*
+## TimeLoop Methods
+*By default, every method returns the instance of `TimeLoop` for chaining*
 
-### timeLoop.start()
-Starts the time-loop, events will be fired when the loop is running.
+### .start()
+Starts the time-loop, timers will be fired when the loop is running.
 
-### timeloop.pause()
+### .pause()
 Pauses the time-loop, when calling `start()` again the timer will resume from where it was (so no "running after time").
 
 *Note : the time-loop automatically pauses and resumes when switching tabs on compatible browsers.*
 
-### timeLoop.createEvent(options, callback, [context])
-Creates and returns a new `TimeEvent` with given options (see section above for available options). By default, if no context is passed, the  context will be the `window` object.
+### .resume()
+Alias of `start()`
 
-### timeLoop.createPool(nb)
-Creates a pool of inactive `TimeEvent`. This is useful for performances when you need to create a lot of events during runtime : this will pre-allocate *nb* `TimeEvent` that will get overrided and activated when you call the `createEvent()` method.
+### .createTimer(callback, [options], [context])
+Creates and returns a new `Timer` with given options (see section above for available options). By default, if no context is passed, the  context will be the `window` object.
 
-### timeLoop.sort()
-Sorts the existing events by priority.
+### .wait(time=0)
+Shortcut for creating timeouts, returns a A+ Promise.
+
+### .repeat(callback, time=0)
+Shortcut for creating intervals, returns the created `Timer`.
+
+### .createPool(nb)
+Creates a pool of inactive `Timer`. This is useful for performances when you need to create a lot of timers during runtime : this will pre-allocate *nb* `Timer` that will get overriden and activated when you call the `createTimer()` method.
+
+### .sort()
+Sorts the existing timers by priority.
 
 *Note : by default, this is automatically called when needed, so you shouldn't bother with it unless you de-activated auto-sort and want to handle the sorting yourself*
 
-### timeLoop.namespace(namespace, [action])
-Returns the events that match the given namespace. If a valid action name is passed, following methods will be executed on all matching events :
+### .namespace(namespace, [action])
+Returns the timers that match the given namespace. If a valid action name is passed, following methods will be executed on all matching timers :
 
-- "**pause**" : matching events will be paused
-- "**start**" : matching events will be un-paused
-- "**end**" : matching events will be de-activated
+- "**pause**" : matching timers will be paused
+- "**resume**" : matching timers will be resumed
+- "**reset**" : matching timers will be reset
+- "**end**" : matching timers will be de-activated
 
-Less precise requested namespace will fetch a larger number of events, ex :
+Less precise requested namespace will fetch a larger number of timers, ex :
 
 ```js
-timeLoop.createEvent({
-  namespace: 'home.banner'
-}, function() { [...] });
+timeLoop.createTimer(function() { [...] }, { namespace: 'home.banner' });
 
-timeLoop.createEvent({
-  namespace: 'home.scrolling'
-}, function() { [...] });
+timeLoop.createTimer(function() { [...] }, { namespace: 'home.scrolling' });
 
-timeLoop.namespace('all.home'); // returns both events
-timeLoop.namespace('all.home.scrolling'); // returns only one event
+timeLoop.namespace('all.home', 'pause'); // returns both timers and pauses them
+timeLoop.namespace('all.home.scrolling', 'resume'); // returns only one timer and resume it
 ```
