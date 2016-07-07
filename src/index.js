@@ -12,6 +12,8 @@ let fpsCurrentTime;
 let ev;
 let i;
 let prom;
+let l;
+let t;
 
 /**
  * @class
@@ -93,10 +95,11 @@ export default class TimeLoop {
       this.fpsLastTime = fpsCurrentTime;
     }
 
-    this.timers.map((e) => {
-      if (!e.paused && !e.ended) e.update(this.elapsedTime);
-      return e;
-    });
+    l = this.timers.length;
+    for (i = 0; i < l; ++i) {
+      t = this.timers[i];
+      if (!t.paused && !t.ended) t.update(this.elapsedTime);
+    }
 
     window.requestAnimationFrame(this.proxyStep);
   }
