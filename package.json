@@ -1,6 +1,6 @@
 {
   "name": "time-loop",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Javascript time-based events handler",
   "main": "lib/time-loop.js",
   "homepage": "https://github.com/PerrineBoissieres/time-loop",
