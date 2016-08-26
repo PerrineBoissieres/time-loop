@@ -119,8 +119,9 @@ export default class TimeLoop {
 
     if (!this.started) {
       this.started = true;
-      window.requestAnimationFrame(this.proxyStep);
     }
+
+    window.requestAnimationFrame(this.proxyStep);
   }
 
   /**
